@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { FC, MouseEvent } from 'react';
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
+import { TOTAL_ITEMS } from '../../utils/constants';
 
 type Props = {
-  total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (currentPage: number) => void;
 };
 
-export const Pagination: React.FC<Props> = ({
-  total,
+export const Pagination: FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const totalPages = Math.ceil(total / perPage);
+  const totalPages = Math.ceil(TOTAL_ITEMS / perPage);
+  const pages = getNumbers(1, totalPages);
 
   const isSelectedFirstPage = currentPage === 1;
   const isSelectedLastPage = currentPage === totalPages;
 
-  const handleSelectPrevPage = (event: React.MouseEvent<HTMLElement>) => {
+  const handleSelectPrevPage = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     if (!isSelectedFirstPage) {
@@ -28,7 +28,7 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
-  const handleSelectNextPage = (event: React.MouseEvent<HTMLElement>) => {
+  const handleSelectNextPage = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     if (!isSelectedLastPage) {
@@ -54,7 +54,7 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {getNumbers(1, totalPages).map(pageNumber => (
+      {pages.map(pageNumber => (
         <li
           key={pageNumber}
           className={cn('page-item', {
@@ -65,10 +65,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${pageNumber}`}
-            onClick={event => {
-              event.preventDefault();
-              onPageChange(pageNumber);
-            }}
+            onClick={() => onPageChange(pageNumber)}
           >
             {pageNumber}
           </a>
