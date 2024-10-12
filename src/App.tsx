@@ -12,7 +12,7 @@ export const App: React.FC = () => {
   const itemsFrom = perPage * currentPage - perPage + 1;
   const itemsTo = Math.min(perPage * currentPage, TOTAL_ITEMS);
 
-  const visibleItems = getNumbers(itemsFrom - 1, itemsTo).map(n => `Item ${n}`);
+  const visibleItems = getNumbers(itemsFrom, itemsTo).map(n => `Item ${n}`);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
